@@ -31,8 +31,8 @@ SECRET_KEY = os.getenv('SECRET_KEY')
 DEBUG = os.getenv('DEBUG')
 
 
-ALLOWED_HOSTS = ['192.168.1.50','127.0.0.1','localhost']
-CSRF_TRUSTED_ORIGINS = ['http://localhost:8000','http://192.168.1.50:8000','http://127.0.0.1:8000','http://localhost','http://192.168.1.50','http://127.0.0.1']
+ALLOWED_HOSTS = ['192.168.1.50','127.0.0.1','localhost','stagging.pythonanywhere.com']
+CSRF_TRUSTED_ORIGINS = ['http://localhost:8000','http://192.168.1.50:8000','https://stagging.pythonanywhere.com','http://127.0.0.1:8000','http://localhost','http://192.168.1.50','http://127.0.0.1']
 
 # Application definition
 
