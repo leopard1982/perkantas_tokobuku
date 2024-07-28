@@ -1,5 +1,7 @@
 from django.urls import path
-from landingpage.views import welcome
+from landingpage.views import welcome, testPDF
+
 urlpatterns = [
-    path('', welcome,name='welcome')
+    path('', welcome,name='welcome'),
+    path('test/',testPDF,name="testPDF")
 ] 

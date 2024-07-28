@@ -36,3 +36,9 @@ def welcome(request):
         'tanggal':getTanggal()
     }    
     return render(request,'landing/index.html',context)
+
+def testPDF(request):
+    context = {
+        'test':'test yow berhasil'
+    }
+    return render(request,'landing/testpdf.html',context)
