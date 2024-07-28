@@ -68,14 +68,12 @@
         //     document.getElementById('page').textContent=num;
         // }
         let docPdf = null;
+        let mydata=null;
 
         pdfjsLib.getDocument("{% static 'test.pdf'%}").promise.then((doc)=>{
             document.getElementById('max_page').textContent = doc._pdfInfo.numPages;  
-        }).finally(async ()=> {
-            let page = await docPdf.getPage(0);
-            page.then((data)=> {
-                console.log(data);
-            })
+        }).finally(()=> {
+            
         });
        
     </script>
