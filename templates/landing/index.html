@@ -33,9 +33,9 @@
                 <nav class="navbar navbar-expand-sm bg-dark p-0">
                     <ul class="navbar-nav ml-n2">
                         <li class="nav-item border-right border-secondary">
-                            <a class="nav-link text-body small" href="#">{{tanggal}}</a>
+                            <a class="nav-link text-body small text-white" href="#" style="font-weight:bold;">{{tanggal}}</a>
                         </li>
-                        <li class="nav-item border-right border-secondary">
+                        <!-- <li class="nav-item border-right border-secondary">
                             <a class="nav-link text-body small" href="#">Advertise</a>
                         </li>
                         <li class="nav-item border-right border-secondary">
@@ -43,7 +43,7 @@
                         </li>
                         <li class="nav-item">
                             <a class="nav-link text-body small" href="#">Login</a>
-                        </li>
+                        </li> -->
                         <li class="nav-item">
                             <a class="nav-link text-body small " href="#"><b>Shallom, Selamat Siang Rycko!</b></a>
                         </li>
@@ -84,7 +84,8 @@
             <a href="index.html" class="navbar-brand d-block d-lg-none">
                 <div class="d-block">
                     <img class="m-0 display-4 rounded" style="height:100px; width:350px" src="{% static 'img/logo.jpg'%}" alt="logo literatur Perkantas">
-                    <div>{{tanggal}}</div>                    
+                    <div class="small" style="font-size:14px">{{tanggal}}</div>
+                    <div class="small"  style="font-size:14px;font-weight:bold">Shallom, Selamat Siang Rycko!</div>                    
                 </div>
 
                 <!-- <h1 class="m-0 display-4 text-uppercase text-primary">Biz<span class="text-white font-weight-normal">News</span></h1> -->
