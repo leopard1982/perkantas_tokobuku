@@ -1,5 +1,11 @@
 from django.shortcuts import render, HttpResponse
 from datetime import datetime
+import hashlib
+
+def hashPassword(passwd):
+    h = hashlib.new('SHA256')
+    h.update(b"{passwd}")
+    return h.hexdigest()
 
 # Create your views here.
 def getTanggal():
