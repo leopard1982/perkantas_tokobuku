@@ -1,6 +1,31 @@
-from django.shortcuts import render, HttpResponse
+from django.shortcuts import render, HttpResponseRedirect, HttpResponse
+from django.urls import reverse
 from datetime import datetime
 import hashlib
+from adminpage.models import Book_Review, Book
+from landingpage.models import customerDb
+
+def check_review(id_buku,id_customer):
+    try:
+        book = Book.objects.get(id=id_buku)
+    except:
+        return False
+    try: 
+        customerdb = customerDb.objects.get(id=id_customer)
+    except:
+        return False
+    try:
+        book_review = Book_Review.objects.get(id_buku=book,id_customer=customerdb)
+        return True
+    except:
+        return False
+
+def get_waktu():
+    mytime = int(datetime.now().hour)
+    if mytime<12: return "Pagi"
+    elif mytime==12: return "Siang"
+    elif mytime<18: return "Sore"
+    else: return "Malam"
 
 def hashPassword(passwd):
     h = hashlib.new('SHA256')
@@ -38,13 +63,23 @@ def getTanggal():
     return f"{hari}, {tanggal} {bulan} {tahun}"
 
 def welcome(request):
+    print(request.user.groups)
     context= {
+        'waktu':get_waktu(),
         'tanggal':getTanggal()
     }    
     return render(request,'landing/index.html',context)
 
 def testPDF(request):
-    context = {
-        'test':'test yow berhasil'
-    }
-    return render(request,'landing/testpdf.html',context)
+    if request.user.is_authenticated:
+        context = {
+            'waktu':get_waktu(),
+            'tanggal':getTanggal(),
+            'header':'Test PDF Reader'
+        }
+        return render(request,'landing/testpdf.html',context)
+    else:
+        return HttpResponseRedirect(reverse('test2',kwargs={'test2':'yuhuuuuuu'}))
+    
+def test2(request,test):
+    return HttpResponse('hallo...')

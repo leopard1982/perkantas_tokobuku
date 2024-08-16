@@ -14,6 +14,7 @@ from pathlib import Path
 import os
 from dotenv import load_dotenv
 from django.conf import settings
+import json
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -26,6 +27,7 @@ load_dotenv()
 
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = os.getenv('SECRET_KEY')
+
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = os.getenv('DEBUG')
@@ -59,6 +61,8 @@ MIDDLEWARE = [
 
 ROOT_URLCONF = 'perkantas_tokobuku.urls'
 
+AUTH_USER_MODEL = 'landingpage.CustomerDb'
+
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
@@ -81,13 +85,10 @@ WSGI_APPLICATION = 'perkantas_tokobuku.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/5.0/ref/settings/#databases
 
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
-    }
-}
+database_string = os.getenv('DATABASE_SETTING')
+database_json = json.loads(database_string)
 
+DATABASES = database_json
 
 # Password validation
 # https://docs.djangoproject.com/en/5.0/ref/settings/#auth-password-validators
@@ -141,3 +142,41 @@ CORS_ALLOWED_ORIGINS = ["http://localhost:8000"]
 # https://docs.djangoproject.com/en/5.0/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+LOGGING = {
+    "version":1,
+    "disable_existing_loggers":False,
+    "formatters": {
+        "verbose": {
+            "format": "{levelname} {asctime} {module} {process:d} {thread:d} {message}",
+            "style": "{",
+        },
+        "standart": {
+            "format": "{levelname} {asctime} {module} {message}",
+            "style": "{",
+        },
+        "simple": {
+            "format": "{levelname} {message}",
+            "style": "{",
+        },
+    },
+    "filters":{},
+    "handlers": {
+        "console": {
+            "level": "INFO",
+            "class": "logging.StreamHandler",
+            "formatter": "standart",
+        },
+    },
+    "root": {
+        "handlers": ["console"],
+        "level":"WARNING"
+    },
+    "loggers": {
+        "django": {
+            "handlers":["console"],
+            "level":os.getenv('DJANGO_LOG_LEVEL'),
+            "propagate":True
+        }
+    }
+}
