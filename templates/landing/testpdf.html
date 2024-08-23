@@ -1,7 +1,14 @@
 {% extends 'base.html'%}
 {% load static%}
 {% block contents%}
-<p>Hallo</p>
-{{ perms.perkantas_tokobuku}}
+<p>
+    halaman: {{current}}
+</p>
+<p>
+    <a class="btn btn-outline-success" href="?before={{before}}">&lt; before</a>  <a class="btn  btn-outline-success" href="?next={{next}}">next &gt;</a>
+</p>
+<!-- {{ perms.perkantas_tokobuku}} -->
+
+<img src="/{{pict}}">
 {% if 'auth.delete_permission' in perms %}Test{%endif%}
 {% endblock%}

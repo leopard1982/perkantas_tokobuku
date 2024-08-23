@@ -4,7 +4,13 @@ from datetime import datetime
 import hashlib
 from adminpage.models import Book_Review, Book
 from landingpage.models import customerDb
+from pdf2image import convert_from_path
+from django.conf import settings
+import os
+import uuid
+import shutil
 
+    
 def check_review(id_buku,id_customer):
     try:
         book = Book.objects.get(id=id_buku)
@@ -71,15 +77,42 @@ def welcome(request):
     return render(request,'landing/index.html',context)
 
 def testPDF(request):
-    if request.user.is_authenticated:
-        context = {
+    files = os.path.join(settings.BASE_DIR,'media','temp')
+        # print(f"data {files}")
+    shutil.rmtree(files)
+    os.mkdir(os.path.join(settings.BASE_DIR,'media','temp'))
+    
+    halaman=0
+    if 'next' in request.GET:
+        halaman=int(request.GET['next'])
+    elif 'before' in request:
+        halaman = int(request.GET['before'])
+
+    if(halaman<0): halaman=0
+    
+    filename = os.path.join('media','temp',str(uuid.uuid4()) + '.jpg')
+    # filename=os.path.join(settings.BASE_DIR,'media',str(uuid.uuid4())+'.jpg')
+    print(os.path.join(settings.BASE_DIR,'test.pdf'))
+    file_pdf = convert_from_path(os.path.join(settings.BASE_DIR,'test.pdf'),80)
+    try:
+        file_pdf[halaman].save(os.path.join(settings.BASE_DIR,filename),'JPEG')
+    except:
+        halaman=0
+        file_pdf[0].save(os.path.join(settings.BASE_DIR,filename),'JPEG')
+    # if request.user.is_authenticated:
+    context = {
             'waktu':get_waktu(),
             'tanggal':getTanggal(),
-            'header':'Test PDF Reader'
+            'header':'Test PDF Reader',
+            'pict':filename,
+            'next': halaman+1,
+            'before': halaman-1,
+            'current': halaman+1
         }
-        return render(request,'landing/testpdf.html',context)
-    else:
-        return HttpResponseRedirect(reverse('test2',kwargs={'test2':'yuhuuuuuu'}))
+
+    return render(request,'landing/testpdf.html',context)
+    # else:
+    #     return HttpResponseRedirect(reverse('test2',kwargs={'test2':'yuhuuuuuu'}))
     
 def test2(request,test):
     return HttpResponse('hallo...')
